@@ -19,7 +19,7 @@ void colorLoop()
   //color[0]=map(color[0],maxblack[0],minwhite[0],0,100);
   
   // output the reading
-  Serial.print("Red: ");Serial.print(color[0]);Serial.print(" "); 
+  //Serial.print("Red: ");Serial.print(color[0]);Serial.print(" "); 
 
 
   digitalWrite(rPin, LOW); //Set rPin to LOW+++++++++++++++ 
@@ -34,7 +34,7 @@ void colorLoop()
   color[1]=sensorValue;
   color[1]=constrain(sensorValue,minwhite[1],maxblack[1]);
   //color[1]=map(color[1],maxblack[1],minwhite[1],0,100);
-  Serial.print("Blue: ");Serial.print(color[1]);Serial.print(" ");  
+  //Serial.print("Blue: ");Serial.print(color[1]);Serial.print(" ");  
   //Serial.println("");
   
   
@@ -51,7 +51,6 @@ void colorLoop()
   {
     //Serial.println("BLACK!");
     state = BLACK;
-    colorState = BLACK;
   }
    //Red color detected
   else if(color[0]<color[1])

@@ -1,5 +1,9 @@
 void detectColor()
 {
+  
+  Serial.println("Detecting color: ");
+  Serial.println(patchState);
+  
   // turn on the red led only
      digitalWrite(rPin, HIGH); //Set rPin to HIGH++++++++++++++++
      digitalWrite(bPin, LOW); //Set bPin to LOW+++++++++++++++
@@ -13,9 +17,6 @@ void detectColor()
 
       color[0]=constrain(sensorValue,minwhite[0],maxblack[0]);
 
-      Serial.println("Red: ");
-      Serial.print(color[0]);
-      Serial.print("\n"); 
     
       // turn on the blue led only
       digitalWrite(rPin, LOW); 
@@ -30,11 +31,7 @@ void detectColor()
       color[1]=sensorValue;
       color[1]=constrain(sensorValue,minwhite[1],maxblack[1]);
       
-      Serial.println("Blue: ");
-      Serial.print(color[1]);
-      Serial.println(" Blue Counter: ");
-      Serial.print(blueCounter);
-      Serial.print("\n");  
+
 
       if(color[0] < 500 && color[1] < 500)
       {
@@ -53,5 +50,7 @@ void detectColor()
         state = BLUE;
       }
       
+      Serial.println("State: ");
+      Serial.println(state);
 }
 

@@ -1,6 +1,8 @@
 void irDetect(){
 //  Serial.println("\n\ntargetAngle:");
  // Serial.println("\n\nChecking Distance\n\n");
+ 
+ 
   newPosition = position;
   
   Kp = 17;
@@ -10,7 +12,7 @@ void irDetect(){
     //TAKING THE AVERAGE DISTANCE READING AT A POSITION
   p = -200;
   
-    while( state != DETECT ){ //takes multiple readings at each position
+    while( irState != DETECT ){ //takes multiple readings at each position
     
     
       if(p<=220 && flag == false){
@@ -28,51 +30,40 @@ void irDetect(){
           flag = false;
           }
         }
-//====================================== HARD CODED
-        if(p == 100){break;}
-//======================================      
+     
         targetAngle = p;
         Serial.println(targetAngle);
+        
         start_time = millis();
         while (millis() < start_time + 50) {
         }//wait 0.01 seconds
         
-        Serial.print("Val: ");
-        int state = readIRFrequency();
-        if (state== NOSIGNAL){
-         Serial.println("NO SIGNAL DETECTED");
-           digitalWrite(irDetectLEDPin, LOW);
+        irToColor = analogRead(sensorPinIrToColor);
+        
+        if (irToColor < 50){
+        irState = DETECT;
+        digitalWrite(irDetectLEDPin,HIGH);
         }
-        else if (state == DETECT){
-         Serial.println("BEACON DETECTED!");
-         digitalWrite(irDetectLEDPin, HIGH);
+        else{
+        irState = NOSIGNAL;
+        digitalWrite(irDetectLEDPin,LOW);        
         }
         
     }
 
   //determines which way to turn based on the angle at which the greatest value was found
   
-  if(p<0){ // turn right
-  right();
-
-   start_time = millis();
-   while(millis()<start_time+int(abs(p)*encoderToDeg*degToMs)){
+  if(p<0){ // turn left
+     right();
+     start_time = millis();
+     while(millis()<start_time+int(abs(p)*encoderToDeg*degToMs)){
     }
   }
-  else if(p>0){// turn left
-  left();
-
-   start_time = millis();
-   while(millis()<start_time+int(abs(p)*encoderToDeg*degToMs)){
+  else if(p>0){// turn right
+     left();    
+     start_time = millis();
+     while(millis()<start_time+int(abs(p)*encoderToDeg*degToMs)){
     }
   } 
 }
 
-int readIRFrequency ()
-{
-  if (frequency >= 75 && frequency < 135)
-    return DETECT;
-  else
-    return NOSIGNAL;
-  
-}

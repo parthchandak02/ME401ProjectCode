@@ -1,4 +1,6 @@
 
+
+
 #include <SoftPWMServo.h>
 #include <Servo.h>
 
@@ -29,6 +31,10 @@ int sampleTime= 1;     // ms
 int windowIters = windowTime/sampleTime;
 float frequency = 0;
 const int IRSensorInputPin = 7;
+
+//0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+int sensorPinIrToColor = 10;    // select the analog input pin for the photoresistor
+int irToColor = 0;
 
 //array for angles
 signed int lookA[] = {-200,-100,0,100,200}; //for position
@@ -77,6 +83,9 @@ int Linter = 4;  // Left interrrupt -> digital pin 35
 int Rinter = 3;  // Right Interupt -> digital pin 8
 volatile int state = LOW; //state variable to be changed during an interrupt
 volatile int colorState = LOW; //state variable to be changed during an interrupt
+
+volatile int irState = LOW;
+volatile int patchState = LOW;
 
 
 //speed pulsewidths: Right Servo
@@ -194,6 +203,15 @@ void loop() {
  
   switch (state)
   {
+      case (BEACONDETECT):
+      stopServos();
+      sensorZero();
+      irDetect();
+      sensorZero();
+      //colorSearch();
+      colorPatch();
+      
+      break;  
     case (MAIN):
       colorLoop();
       runMainState();
@@ -222,20 +240,12 @@ void loop() {
       
     case (WHITE):
       state = MAIN;
-      break;
-
-    case (BEACONDETECT):
-      topLedCheck();
-      stopServos();
-      sensorZero();
-      irDetect();
-      //colorSearch();
-      colorPatch();
-      
-      break;    
+      break;  
       
     default:
       Serial.println("ERROR - UNKNOWN STATE");
+      stopServos();
+      sensorZero();
       break;
   }
   

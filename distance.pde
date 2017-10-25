@@ -131,8 +131,7 @@ void distance(){
   //determines which way to turn based on the ongle at which the greatest value was found
   
   if(botAngle<0){ // turn right
-   myServoL.writeMicroseconds(1700);
-   myServoR.writeMicroseconds(1700);
+  right();
 //   Serial.println("TURN RIGHT");
 //   Serial.println("Delay: ");
 //   Serial.println(int(abs(botAngle)*encoderToDeg*degToMs));
@@ -148,8 +147,7 @@ void distance(){
     }
   }
   else if(botAngle>0){// turn left
-   myServoL.writeMicroseconds(1300);
-   myServoR.writeMicroseconds(1300);
+  left();
 //   Serial.println("TURN LEFT");
 //   Serial.println("Delay: ");
 //   Serial.println((botAngle)*encoderToDeg*degToMs);
